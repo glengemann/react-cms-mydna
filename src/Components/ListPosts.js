@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import PostItem from './PostItem';
 import Error from './Error';
+import axios from 'axios';
 
 function ListPosts() {
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(false);
+    const [errorCode, setErrorCode] = useState(0);
 
     useEffect(() => {
         const url = 'http://localhost:14000/api/posts';
+        const token = localStorage.getItem('token');
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                setPosts(data);
+        axios
+            .get(url, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                }
             })
-            .catch(() => {
+            .then(response => {
+                setPosts(response.data);
+            })
+            .catch((error) => {
                 setError(true);
+                setErrorCode(error.response.status);
             });
     }, []);
 
     const renderList = () => {
         if (error) {
-            return <Error />;
+            return <Error status={errorCode}/>;
         }
 
         return posts.map((post) => {

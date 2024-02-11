@@ -5,13 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Post from "./Components/Post";
+import Login from "./Components/Login";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
         <Routes>
-            <Route path="/" element={<App/>}/>
-            <Route path="/post/:id" element={<Post/>}/>
+            <Route path="/" element={<App/>} />
+            <Route path="/post/:id" element={<Post/>} />
+            <Route path="/login" element={<Login/>} />
         </Routes>
     </BrowserRouter>
 );
