@@ -1,26 +1,34 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 
 function CommentForm({postId}) {
     const [comment, setComment] = useState('');
+    const token = localStorage.getItem('token');
+    const isLoggedIn = token !== null;
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const response = await fetch('http://localhost:14000/api/comments/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({content: comment, post_id: postId}),
-        });
+        try {
+            const response = await axios.post('http://localhost:14000/api/comments/', {
+                    content: comment,
+                    post_id: postId
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                    }
+                }
+            );
 
-        const data = await response.json();
-
-        if (response.status === 201) {
-            setComment('');
-            alert('Comment submitted successfully');
-        } else {
-            alert('Error submitting comment');
+            if (response.status === 201) {
+                setComment('');
+                alert('Comment submitted successfully');
+            } else {
+                alert('Error submitting comment');
+            }
+        } catch (error) {
+            console.error('Error submitting comment', error);
         }
     };
 
@@ -37,8 +45,18 @@ function CommentForm({postId}) {
                         />
                     </label>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit"
+                    className="btn btn-primary"
+                    disabled={!isLoggedIn}
+                >
+                    Submit
+                </button>
             </form>
+            {!isLoggedIn && (
+                <div className="alert alert-warning" role="alert">
+                    You must be logged in to comment.
+                </div>
+            )}
         </div>
     );
 }
