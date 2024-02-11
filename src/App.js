@@ -3,55 +3,36 @@ import ListPosts from './Components/ListPosts';
 import {Link} from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';
+import Layout from "./Components/Layout";
 
 function App() {
-    const isLoggedIn = localStorage.getItem('token') !== null;
-
-    const logout = async () => {
-        const url = 'http://localhost:14000/api/logout';
-        const token = localStorage.getItem('token');
-
-        axios
-            .post(url, {}, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json',
-                }
-            })
-            .then(() => {
-                localStorage.removeItem('token');
-                window.location.href = '/login';
-            })
-            .catch(() => {
-                console.log('Logout failed');
-            });
-    }
-
     return (
-        <div className="">
-            <div className="container">
-                <header className="d-flex justify-content-center py-3">
-                    <ul className="nav nav-pills">
-                        <Link to="/" className="nav-item nav-link">Home</Link>
-                        <Link to="/login" className="nav-item nav-link"
-                            style={{display: isLoggedIn ? 'none' : 'block'}}
-                        >
-                            Login
-                        </Link>
-                        <a className="nav-item nav-link" onClick={logout}
-                            style={{display: isLoggedIn ? 'block' : 'none'}}
-                        >
-                            Logout
-                        </a>
-                    </ul>
-                </header>
-            </div>
+        <Layout>
+            <section className="py-5 text-center container">
+                <div className="row py-lg-5">
+                    <div className="col-lg-6 col-md-8 mx-auto">
+                        <h1 className="fw-light">CMS</h1>
+                        <p className="lead text-body-secondary">
+                            A simple content management system.
+                        </p>
+                        <p>
+                            <Link
+                                to="/post/new"
+                                className="btn btn-primary my-2"
+                            >Create Post</Link>
+                        </p>
+                    </div>
+                </div>
+            </section>
 
-            <header className="">
-                <h1 className="">Posts</h1>
-                <ListPosts/>
-            </header>
-        </div>
+            <div className="album py-5 bg-body-tertiary">
+                <div className="container">
+                    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <ListPosts/>
+                    </div>
+                </div>
+            </div>
+        </Layout>
     );
 }
 

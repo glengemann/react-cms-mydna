@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PostItem from './PostItem';
+import PostCard from '../Pages/Post/PostCard';
 import Error from './Error';
 import axios from 'axios';
 
@@ -32,19 +32,15 @@ function ListPosts() {
         if (error) {
             return <Error status={errorCode}/>;
         }
-
-        return posts.map((post) => {
-            return (
-                <PostItem key={post.id} post={post} title={post.title} content={post.content}/>
-            );
-        });
     };
 
-    return (
-        <div className='row'>
-            {renderList()}
-        </div>
-    );
+    return posts.map((post) => {
+        return (
+            <div className="col">
+                <PostCard key={post.id} post={post} title={post.title} content={post.content}/>
+            </div>
+        );
+    });
 }
 
 export default ListPosts;
