@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import moment from "moment/moment";
 
 function Comment({comment}) {
     const token = localStorage.getItem('token');
@@ -52,7 +53,9 @@ function Comment({comment}) {
             <div className="card-body">
                 <h5 className="card-title">Karl Popper</h5>
                 <p className="card-text">{comment.content}</p>
-                <small>{comment.created_at}</small>
+                <small className="text-body-secondary">
+                    {moment(comment.created_at).fromNow()}
+                </small>
 
                 {isLoggedIn && (
                     <div className="text-end">

@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Post from "./Components/Post";
+import Post from "./Pages/Post/Post";
 import Login from "./Pages/Login/Login";
 import PostForm from "./Pages/Post/PostForm";
 import CategoryList from "./Pages/Category/List";

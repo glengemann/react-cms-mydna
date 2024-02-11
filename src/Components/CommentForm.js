@@ -5,6 +5,7 @@ function CommentForm({postId}) {
     const [comment, setComment] = useState('');
     const token = localStorage.getItem('token');
     const isLoggedIn = token !== null;
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,35 +29,45 @@ function CommentForm({postId}) {
                 alert('Error submitting comment');
             }
         } catch (error) {
-            console.error('Error submitting comment', error);
+            setErrorMessage(error.message + ': ' + error.response.data.message);
         }
     };
 
     return (
         <div className="container-fluid">
-            <form onSubmit={handleSubmit} className="mb-3">
-                <div className="form-group">
-                    <label>
-                        Comment:
-                        <textarea
-                            className="form-control"
-                            value={comment}
-                            onChange={(e) => setComment(e.target.value)}
-                        />
-                    </label>
+            {errorMessage && (
+                <div className="alert alert-danger" role="alert">
+                    {errorMessage}
                 </div>
-                <button type="submit"
-                    className="btn btn-primary"
-                    disabled={!isLoggedIn}
-                >
-                    Submit
-                </button>
-            </form>
+            )}
+
             {!isLoggedIn && (
                 <div className="alert alert-warning" role="alert">
                     You must be logged in to comment.
                 </div>
             )}
+
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label
+                        htmlFor="exampleFormControlTextarea1"
+                        className="form-label"
+                    >Comment</label>
+                    <textarea
+                        className="form-control"
+                        id="exampleFormControlTextarea1"
+                        rows="3"
+                        required
+                        value={comment}
+                        onChange={e => setComment(e.target.value)}
+                    ></textarea>
+                </div>
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={!isLoggedIn}
+                >Submit</button>
+            </form>
         </div>
     );
 }

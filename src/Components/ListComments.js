@@ -7,12 +7,12 @@ function ListComments({ comments }) {
     }
 
     return (
-        <div>
+        <section className="py-5 container">
             <h4>Comments</h4>
             {comments.map(comment => (
                 <Comment key={comment.id} comment={comment} />
             ))}
-        </div>
+        </section>
     );
 }
 
