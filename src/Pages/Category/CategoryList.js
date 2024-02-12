@@ -41,42 +41,47 @@ function CategoryList() {
     return (
         <Layout>
             <div>
-                <h1>Categories</h1>
+                <div className="d-flex justify-content-between p-2">
+                    <h1>Categories</h1>
+                    <div>
+                        <Link
+                            to="/admin/categories/new"
+                            className="btn btn-primary"
+                        >
+                            Create Category
+                        </Link>
+                    </div>
+                </div>
 
-                <Link
-                    to="/admin/categories/new"
-                    className="btn btn-primary"
-                >
-                    Create Category
-                </Link>
-
-                <table className="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {categories.map(category => (
-                        <tr key={category.id}>
-                            <td>{category.name}</td>
-                            <td>
-                                <Link
-                                    to={`/admin/categories/edit/${category.id}`}
-                                    className="btn btn-primary"
-                                >Edit</Link>
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => deleteCategory(category.id)}
-                                >
-                                    Delete
-                                </button>
-                            </td>
+                <div className="col-8 table-responsive mx-auto">
+                    <table className="table table-striped ">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                        {categories.map(category => (
+                            <tr key={category.id}>
+                                <td>{category.name}</td>
+                                <td>
+                                    <Link
+                                        to={`/admin/categories/${category.id}`}
+                                        className="btn btn-primary"
+                                    >Edit</Link>
+                                    <button
+                                        className="btn btn-danger"
+                                        onClick={() => deleteCategory(category.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </Layout>
     );

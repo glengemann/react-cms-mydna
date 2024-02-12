@@ -7,7 +7,7 @@ function AdminNav({ isLoggedIn }) {
     }
 
     return (
-        <div className="navbar-nav">
+        <div className="navbar-nav ms-auto">
             <Link to="/admin/categories" className="nav-link">
                 Categories
             </Link>
