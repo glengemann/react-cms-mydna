@@ -2,8 +2,8 @@ import React from 'react';
 import Comment from './Comment';
 
 function ListComments({ comments }) {
-    if (!comments) {
-        return <div>No comments yet</div>;
+    if (comments === undefined || comments.length === 0) {
+        return <section className="py-5 container">No comments yet</section>;
     }
 
     return (

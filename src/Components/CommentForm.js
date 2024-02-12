@@ -7,11 +7,11 @@ function CommentForm({postId}) {
     const isLoggedIn = token !== null;
     const [errorMessage, setErrorMessage] = useState('');
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
 
-        try {
-            const response = await axios.post('http://localhost:14000/api/comments/', {
+        axios
+            .post('http://localhost:14000/api/comments/', {
                     content: comment,
                     post_id: postId
                 }, {
@@ -20,17 +20,13 @@ function CommentForm({postId}) {
                         'Accept': 'application/json',
                     }
                 }
-            );
-
-            if (response.status === 201) {
+            ).then((response) => {
                 setComment('');
                 alert('Comment submitted successfully');
-            } else {
+            }).catch((error) => {
                 alert('Error submitting comment');
-            }
-        } catch (error) {
-            setErrorMessage(error.message + ': ' + error.response.data.message);
-        }
+                setErrorMessage(error.message + ': ' + error.response.data.message);
+            });
     };
 
     return (
