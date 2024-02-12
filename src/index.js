@@ -7,7 +7,8 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Post from "./Pages/Post/Post";
 import Login from "./Pages/Login/Login";
 import PostForm from "./Pages/Post/PostForm";
-import CategoryList from "./Pages/Category/List";
+import CategoryList from "./Pages/Category/CategoryList";
+import CategoryForm from "./Pages/Category/CategoryForm";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -18,6 +19,7 @@ root.render(
             <Route path="/login" element={<Login/>} />
             <Route path="/post/new" element={<PostForm />} />
             <Route path="/admin/categories" element={<CategoryList />} />
+            <Route path="/admin/categories/new" element={<CategoryForm />} />
         </Routes>
     </BrowserRouter>
 );

@@ -4,6 +4,7 @@ import Layout from '../../Components/Layout';
 import {Link} from "react-router-dom";
 
 function CategoryList() {
+    const token = localStorage.getItem('token');
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
@@ -15,6 +16,27 @@ function CategoryList() {
                 console.error(error);
             });
     }, []);
+
+    function deleteCategory(id) {
+        const url = `http://localhost:14000/api/categories/${id}`;
+
+        axios
+            .delete(url,{
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => {
+                const newCategories = categories.filter(category => category.id !== id);
+                setCategories(newCategories);
+
+                alert('Category deleted successfully');
+            })
+            .catch(error => {
+                alert(error.message + ': ' + error.response.data.message)
+            });
+    }
 
     return (
         <Layout>
@@ -44,7 +66,10 @@ function CategoryList() {
                                     to={`/admin/categories/edit/${category.id}`}
                                     className="btn btn-primary"
                                 >Edit</Link>
-                                <button className="btn btn-danger">
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => deleteCategory(category.id)}
+                                >
                                     Delete
                                 </button>
                             </td>
