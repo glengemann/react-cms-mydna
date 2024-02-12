@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import axios from "axios";
+import AdminNav from "../Pages/Admin/AdminNav";
 
 function Layout({ children }) {
     const isLoggedIn = localStorage.getItem('token') !== null;
@@ -49,6 +50,7 @@ function Layout({ children }) {
                                     Logout
                                 </a>
                             </div>
+                            <AdminNav isLoggedIn={isLoggedIn}/>
                         </div>
                     </div>
                 </nav>

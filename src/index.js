@@ -17,7 +17,7 @@ root.render(
             <Route path="/post/:id" element={<Post/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/post/new" element={<PostForm />} />
-            <Route path="/categories" element={<CategoryList />} />
+            <Route path="/admin/categories" element={<CategoryList />} />
         </Routes>
     </BrowserRouter>
 );

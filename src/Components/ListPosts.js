@@ -24,23 +24,33 @@ function ListPosts() {
             })
             .catch((error) => {
                 setError(true);
-                setErrorCode(error.response.status);
+                setErrorCode(error.response?.status);
             });
     }, []);
+
+    const renderPosts = () => {
+        return posts.map((post) => {
+            return (
+                <div className="col">
+                    <PostCard key={post.id} post={post} title={post.title} content={post.content}/>
+                </div>
+            );
+        });
+    }
 
     const renderList = () => {
         if (error) {
             return <Error status={errorCode}/>;
         }
+
+        return (
+            <>
+                {renderPosts()}
+            </>
+        );
     };
 
-    return posts.map((post) => {
-        return (
-            <div className="col">
-                <PostCard key={post.id} post={post} title={post.title} content={post.content}/>
-            </div>
-        );
-    });
+    return renderList();
 }
 
 export default ListPosts;
