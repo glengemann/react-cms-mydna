@@ -3,17 +3,17 @@ import axios from 'axios';
 import Layout from "../../Components/Layout";
 import {useParams} from "react-router-dom";
 
-function CategoryForm() {
+function LabelForm() {
     const { id } = useParams();
-    const [category, setCategory] = useState(null);
-    const [categoryName, setCategoryName] = useState(category ? category.name : '');
+    const [label, setLabel] = useState(null);
+    const [labelName, setLabelName] = useState(label ? label.name : '');
 
     useEffect(() => {
         if (id) {
-            axios.get(`http://localhost:14000/api/categories/${id}`)
+            axios.get(`http://localhost:14000/api/labels/${id}`)
                 .then(response => {
-                    setCategory(response.data);
-                    setCategoryName(response.data.name);
+                    setLabel(response.data);
+                    setLabelName(response.data.name);
                 })
                 .catch(error => {
                     alert(error.message + ': ' + error.response.data.message);
@@ -25,24 +25,24 @@ function CategoryForm() {
         event.preventDefault();
 
         const token = localStorage.getItem('token');
-        const categoryData = {
-            name: categoryName
+        const labelData = {
+            name: labelName
         };
 
-        const pathUrl = `http://localhost:14000/api/categories/${category?.id}`;
-        const postUrl = 'http://localhost:14000/api/categories';
-        const url = category ? pathUrl : postUrl;
-        const method = category ? 'put' : 'post';
+        const pathUrl = `http://localhost:14000/api/labels/${label?.id}`;
+        const postUrl = 'http://localhost:14000/api/labels';
+        const url = label ? pathUrl : postUrl;
+        const method = label ? 'put' : 'post';
 
-        axios[method](url, categoryData, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json',
-                }
-            })
+        axios[method](url, labelData, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            }
+        })
             .then(response => {
-                setCategoryName('');
-                alert('Category ' + (category ? 'updated' : 'created') + ' successfully');
+                setLabelName('');
+                alert('Label ' + (label ? 'updated' : 'created') + ' successfully');
             })
             .catch(error => {
                 alert(error.message + ': ' + error.response.data.message)
@@ -51,7 +51,7 @@ function CategoryForm() {
 
     return (
         <Layout>
-            <h1>{category ? 'Update' : 'Create'} Category</h1>
+            <h1>{label ? 'Update' : 'Create'} Label</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label
@@ -63,18 +63,18 @@ function CategoryForm() {
                         className="form-control"
                         id="title"
                         required
-                        value={categoryName} onChange={e => setCategoryName(e.target.value)}
+                        value={labelName} onChange={e => setLabelName(e.target.value)}
                     />
                 </div>
                 <button
                     type="submit"
                     className="btn btn-primary"
                 >
-                    {category ? 'Update' : 'Submit'}
+                    {label ? 'Update' : 'Submit'}
                 </button>
             </form>
         </Layout>
     );
 }
 
-export default CategoryForm;
+export default LabelForm;
