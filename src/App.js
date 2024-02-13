@@ -1,5 +1,5 @@
 import './App.css';
-import ListPosts from './Components/ListPosts';
+import ListPosts from './Pages/Post/ListPosts';
 import {Link} from 'react-router-dom';
 import React from 'react';
 import axios from 'axios';

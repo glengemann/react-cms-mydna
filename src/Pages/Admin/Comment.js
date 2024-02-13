@@ -41,7 +41,7 @@ function Comment({comment: initialComment}) {
     return (
         <div className="card mb-3">
             <div className="card-body">
-                <h5 className="card-title">Karl Popper</h5>
+                <h5 className="card-title">The user "{ comment.user_id }" commented the post #{ comment.post_id }</h5>
                 <p className="card-text">
                     {comment.content}
                 </p>

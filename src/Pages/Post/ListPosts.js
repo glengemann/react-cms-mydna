@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PostCard from '../Pages/Post/PostCard';
-import Error from './Error';
+import PostCard from './PostCard';
+import Error from '../../Components/Error';
 import axios from 'axios';
 
 function ListPosts() {
