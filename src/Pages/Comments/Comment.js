@@ -31,27 +31,6 @@ function Comment({comment}) {
             });
     };
 
-    const handleApprove = () => {
-        const status = comment.status === 'approved' ? 'rejected' : 'approved';
-        axios
-            .patch(`http://localhost:14000/api/comments/${commentId}/status/${status}`, {
-                status: 'approved'
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Accept': 'application/json',
-                }
-            })
-            .then((response) => {
-                removeComment(commentId);
-                alert('Comment status updated successfully');
-            })
-            .catch((error) => {
-                alert('Error updating comment status');
-                console.error('Error updating comment status', error);
-            });
-    };
-
     return (
         <div className="card mb-3">
             <div className="card-body">
@@ -68,9 +47,6 @@ function Comment({comment}) {
                         </button>
                         <button onClick={handleDelete} className="btn btn-danger m-1">
                             Delete
-                        </button>
-                        <button onClick={handleApprove} className="btn btn-success m-1">
-                            {comment.status === 'approved' ? 'Disapprove' : 'Approve'}
                         </button>
                     </div>
                 )}

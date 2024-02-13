@@ -9,6 +9,7 @@ import Login from "./Pages/Login/Login";
 import PostForm from "./Pages/Post/PostForm";
 import CategoryList from "./Pages/Category/CategoryList";
 import CategoryForm from "./Pages/Category/CategoryForm";
+import AdminCommentList from "./Pages/Admin/CommentList";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -21,6 +22,7 @@ root.render(
             <Route path="/admin/categories" element={<CategoryList />} />
             <Route path="/admin/categories/new" element={<CategoryForm />} />
             <Route path="/admin/categories/:id" element={<CategoryForm />} />
+            <Route path="/admin/comments" element={<AdminCommentList />} />
         </Routes>
     </BrowserRouter>
 );

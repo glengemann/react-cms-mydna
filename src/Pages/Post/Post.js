@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import CommentForm from "../../Components/CommentForm";
-import ListComments from "../../Components/ListComments";
+import CommentForm from "../Comments/CommentForm";
+import ListComments from "../Comments/ListComments";
 import Error from "../../Components/Error";
 import axios from "axios";
 import Layout from "../../Components/Layout";
