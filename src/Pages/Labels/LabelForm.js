@@ -63,7 +63,8 @@ function LabelForm() {
                         className="form-control"
                         id="title"
                         required
-                        value={labelName} onChange={e => setLabelName(e.target.value)}
+                        value={labelName}
+                        onChange={e => setLabelName(e.target.value)}
                     />
                 </div>
                 <button

@@ -27,10 +27,6 @@ function LabelList() {
             });
     }, []);
 
-    const handleUpdate = (item) => {
-        // Here you can open a modal or redirect to the update page
-    };
-
     const removeLabel = (commentId) => {
         setLabels(labels.filter(comment => comment.id !== commentId));
     }
@@ -79,12 +75,12 @@ function LabelList() {
                     <tr key={index}>
                         <td>{label.name}</td>
                         <td>
-                            <button
+                            <Link
+                                to={`/admin/labels/${label.id}`}
                                 className="btn btn-primary"
-                                onClick={() => handleUpdate(label)}
                             >
-                                Update
-                            </button>
+                                Edit
+                            </Link>
                             <button
                                 className="btn btn-danger"
                                 onClick={() => handleDelete(label.id)}

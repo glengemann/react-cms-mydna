@@ -27,6 +27,7 @@ root.render(
             <Route path="/admin/comments" element={<AdminCommentList />} />
             <Route path="/admin/labels" element={<AdminLabelList />} />
             <Route path="/admin/labels/new" element={<LabelForm />} />
+            <Route path="/admin/labels/:id" element={<LabelForm />} />
         </Routes>
     </BrowserRouter>
 );
