@@ -36,8 +36,8 @@ function Post() {
                 <p className="post-content">{post.content}</p>
             </section>
 
-            <CommentForm postId={id}/>
-            <ListComments comments={post.comments}/>
+            <CommentForm postId={id} />
+            <ListComments postId={id} />
         </Layout>
     );
 }

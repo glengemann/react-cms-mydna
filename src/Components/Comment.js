@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
 import moment from "moment/moment";
+import { CommentContext } from './ListComments';
 
 function Comment({comment}) {
+    const { removeComment } = useContext(CommentContext);
     const token = localStorage.getItem('token');
     const isLoggedIn = token !== null;
     const commentId = comment.id;
@@ -20,6 +22,7 @@ function Comment({comment}) {
                 }
             })
             .then((response) => {
+                removeComment(commentId);
                 alert('Comment deleted successfully');
             })
             .catch((error) => {
@@ -40,6 +43,7 @@ function Comment({comment}) {
                 }
             })
             .then((response) => {
+                removeComment(commentId);
                 alert('Comment status updated successfully');
             })
             .catch((error) => {
