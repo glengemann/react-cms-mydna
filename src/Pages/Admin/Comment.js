@@ -49,11 +49,11 @@ function Comment({comment: initialComment}) {
                     {moment(comment.created_at).fromNow()}
                 </small>
                 <div className="text-end">
-                    <badge
+                    <span
                         className={`badge ${getBadgeClass(comment.status)}`}
                     >
                         {comment.status}
-                    </badge>
+                    </span>
                     <button
                         onClick={handleApprove}
                         className={`btn m-1 ${comment.status === 'approved' ? 'btn-danger' : 'btn-success'}`}

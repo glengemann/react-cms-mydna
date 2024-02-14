@@ -7,21 +7,20 @@ const PostCard = ({post}) => {
 
     return (
         <div className="card shadow-sm">
-            <svg className="bd-placeholder-img card-img-top" width="100%" height="225"
+            <svg className="bd-placeholder-img card-img-top" width="100%" height="125"
                  xmlns="http://www.w3.org/2000/svg" role="img"
                  aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                 focusable="false"><title>Placeholder</title>
+                 focusable="false">
+                <title>Placeholder</title>
                 <rect width="100%" height="100%" fill="#55595c"/>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                <text x="50%" y="50%" fill="#eceeef" dy=".3em">
+                    Awesome Post
+                </text>
             </svg>
             <div className="card-body">
                 <h5 className="card-title">
                     {post.title}
                 </h5>
-                <p
-                    className="card-text"
-                    dangerouslySetInnerHTML={{__html: truncatedContent}}
-                />
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
                         <button

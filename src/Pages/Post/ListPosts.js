@@ -28,29 +28,19 @@ function ListPosts() {
             });
     }, []);
 
-    const renderPosts = () => {
-        return posts.map((post) => {
-            return (
-                <div className="col">
-                    <PostCard key={post.id} post={post} title={post.title} content={post.content}/>
-                </div>
-            );
-        });
+    if (error) {
+        return <Error status={errorCode}/>;
     }
 
-    const renderList = () => {
-        if (error) {
-            return <Error status={errorCode}/>;
-        }
-
-        return (
-            <>
-                {renderPosts()}
-            </>
-        );
-    };
-
-    return renderList();
+    return (
+        <>
+            {posts.map((post) => (
+                <div className="col" key={post.id}>
+                    <PostCard key={post.id} post={post} title={post.title} content={post.content}/>
+                </div>
+            ))}
+        </>
+    );
 }
 
 export default ListPosts;

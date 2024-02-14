@@ -8,37 +8,19 @@ function uploadAdapter(loader) {
     const token = localStorage.getItem('token');
 
     return {
-        upload: () => {
-            return new Promise(async (resolve, reject) => {
-                try {
-                    const file = await loader.file;
-                    const response = await axios.request({
-                        method: "POST",
-                        url: `http://localhost:14000/api/upload`,
-                        data: {
-                            file
-                        },
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            'Authorization': `Bearer ${token}`,
-                            'Accept': 'application/json',
-                        }
-                    });
-                    resolve({
-                        default: `http://localhost:14000/${response.data.file}`
-                    });
-                } catch (error) {
-                    reject("Hello");
-                }
-            });
-        },
+        upload: () => loader.file.then(file => axios.post('http://localhost:14000/api/upload', { file }, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            }
+        }).then(response => ({ default: `http://localhost:14000/${response.data.file}` }))),
         abort: () => {}
     };
 }
+
 function uploadPlugin(editor) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-        return uploadAdapter(loader);
-    };
+    editor.plugins.get("FileRepository").createUploadAdapter = uploadAdapter;
 }
 
 function PostForm() {
@@ -122,27 +104,23 @@ function PostForm() {
                 <div className="mb-3">
                     <CKEditor
                         config={{
-                            extraPlugins: [uploadPlugin]
+                            extraPlugins: [uploadPlugin],
                         }}
                         editor={ClassicEditor}
                         data={content}
-                        onReady={editor => {
-                            // You can store the "editor" and use when it is needed.
-                            console.log('Editor is ready to use!', editor);
-                        }}
                         onChange={(event, editor) => {
                             const data = editor.getData();
                             setContent(data)
                         }}
-                        onBlur={(event, editor) => {
-                            console.log('Blur.', editor);
-                        }}
-                        onFocus={(event, editor) => {
-                            console.log('Focus.', editor);
-                        }}
                     />
                 </div>
                 <div className="mb-3">
+                    <label
+                        htmlFor="title"
+                        className="form-labtitleel"
+                    >
+                        Category
+                    </label>
                     <select
                         className="form-select"
                         aria-label="Default select example"
@@ -150,7 +128,7 @@ function PostForm() {
                         value={category}
                         onChange={e => setCategory(e.target.value)}
                     >
-                        <option selected>Open this select menu</option>
+                        <option value="">Select...</option>
                         {categories.map((category) => (
                             <option key={category.id} value={category.id}>
                                 {category.name}
