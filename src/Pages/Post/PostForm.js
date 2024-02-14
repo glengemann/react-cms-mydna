@@ -1,8 +1,49 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Layout from "../../Components/Layout";
+import {CKEditor} from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
+function uploadAdapter(loader) {
+    const token = localStorage.getItem('token');
+
+    return {
+        upload: () => {
+            return new Promise(async (resolve, reject) => {
+                try {
+                    const file = await loader.file;
+                    const response = await axios.request({
+                        method: "POST",
+                        url: `http://localhost:14000/api/upload`,
+                        data: {
+                            file
+                        },
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json',
+                        }
+                    });
+                    resolve({
+                        default: `http://localhost:14000/${response.data.file}`
+                    });
+                } catch (error) {
+                    reject("Hello");
+                }
+            });
+        },
+        abort: () => {}
+    };
+}
+function uploadPlugin(editor) {
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+        return uploadAdapter(loader);
+    };
+}
 
 function PostForm() {
+    const token = localStorage.getItem('token');
+    const isLoggedIn = token !== null;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
@@ -31,7 +72,6 @@ function PostForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = 'http://localhost:14000/api/posts';
-        const token = localStorage.getItem('token');
 
         axios
             .post(url, {title, content, category_id: category}, {
@@ -57,6 +97,12 @@ function PostForm() {
                 </div>
             )}
 
+            {!isLoggedIn && (
+                <div className="alert alert-warning" role="alert">
+                    You need to be logged in to create a post.
+                </div>
+            )}
+
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label
@@ -74,17 +120,27 @@ function PostForm() {
                     />
                 </div>
                 <div className="mb-3">
-                    <label
-                        htmlFor="exampleFormControlTextarea1"
-                        className="form-label"
-                    >Content</label>
-                    <textarea
-                        className="form-control"
-                        id="exampleFormControlTextarea1"
-                        rows="8"
-                        required
-                        value={content} onChange={e => setContent(e.target.value)}
-                    ></textarea>
+                    <CKEditor
+                        config={{
+                            extraPlugins: [uploadPlugin]
+                        }}
+                        editor={ClassicEditor}
+                        data={content}
+                        onReady={editor => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log('Editor is ready to use!', editor);
+                        }}
+                        onChange={(event, editor) => {
+                            const data = editor.getData();
+                            setContent(data)
+                        }}
+                        onBlur={(event, editor) => {
+                            console.log('Blur.', editor);
+                        }}
+                        onFocus={(event, editor) => {
+                            console.log('Focus.', editor);
+                        }}
+                    />
                 </div>
                 <div className="mb-3">
                     <select
@@ -102,7 +158,13 @@ function PostForm() {
                         ))}
                     </select>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={!isLoggedIn}
+                >
+                    Submit
+                </button>
             </form>
         </Layout>
     );

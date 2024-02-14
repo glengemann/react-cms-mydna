@@ -18,9 +18,10 @@ const PostCard = ({post}) => {
                 <h5 className="card-title">
                     {post.title}
                 </h5>
-                <p className="card-text">
-                    {truncatedContent}
-                </p>
+                <p
+                    className="card-text"
+                    dangerouslySetInnerHTML={{__html: truncatedContent}}
+                />
                 <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
                         <button
